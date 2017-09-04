@@ -41,8 +41,17 @@ jobs:
       # run tests!
       - run: gradle test
 
-deployment:
-  staging:
-    branch: master
-    heroku:
-      appname: stock-api
+      - run: bash .circleci/setup-heroku.sh
+
+      - add_ssh_keys:
+          fingerprints:
+            - "f6:6a:b0:19:3c:a7:26:b4:3e:c8:aa:a2:6f:55:4f:35"
+
+      - deploy:
+          name: Deploy Master to Heroku
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git push heroku master
+              heroku run python manage.py deploy
+              heroku restart
+            fi
