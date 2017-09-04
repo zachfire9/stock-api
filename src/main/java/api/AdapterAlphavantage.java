@@ -28,7 +28,7 @@ public class AdapterAlphavantage extends AdapterStock {
 	public AdapterAlphavantage(Properties configuration) {
 
 		this.setEndpoint(configuration.getProperty("alphavantage.endpoint"));
-		this.apiKey = configuration.getProperty("alphavantage.api_key");
+		this.apiKey = System.getenv("ALPHAVANTAGE_API_KEY");
 	}
 
 	/**
